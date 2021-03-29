@@ -1,84 +1,35 @@
 <template>
   <div class="movie_body">
     <ul>
-      <li>
-        <div class="pic_show"><img src="" alt="" /></div>
+      <li v-for="(item) in movieList" :key="item.id">
+        <div class="pic_show"><img :src="item.img | setWH('128.180')" alt="" /></div>
         <div class="info_list">
-          <h2>ca</h2>
-          <p><span class="grade">17746</span>想看</p>
-          <p>主演: dqc</p>
-          <p>2018-11-30上映</p>
+          <h2>{{item.nm}}</h2>
+          <p class="actors">主演: {{item.star}}</p>
+          <p>{{item.rt}}上映</p>
         </div>
         <div class="btn_pre">预售</div>
       </li>
-            <li>
-        <div class="pic_show"><img src="" alt="" /></div>
-        <div class="info_list">
-          <h2>ca</h2>
-          <p><span class="grade">17746</span>想看</p>
-          <p>主演: dqc</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-            <li>
-        <div class="pic_show"><img src="" alt="" /></div>
-        <div class="info_list">
-          <h2>ca</h2>
-          <p><span class="grade">17746</span>想看</p>
-          <p>主演: dqc</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-            <li>
-        <div class="pic_show"><img src="" alt="" /></div>
-        <div class="info_list">
-          <h2>ca</h2>
-          <p><span class="grade">17746</span>想看</p>
-          <p>主演: dqc</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-            <li>
-        <div class="pic_show"><img src="" alt="" /></div>
-        <div class="info_list">
-          <h2>ca</h2>
-          <p><span class="grade">17746</span>想看</p>
-          <p>主演: dqc</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-            <li>
-        <div class="pic_show"><img src="" alt="" /></div>
-        <div class="info_list">
-          <h2>ca</h2>
-          <p><span class="grade">17746</span>想看</p>
-          <p>主演: dqc</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-            <li>
-        <div class="pic_show"><img src="" alt="" /></div>
-        <div class="info_list">
-          <h2>ca</h2>
-          <p><span class="grade">17746</span>想看</p>
-          <p>主演: dqc</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">预售</div>
-      </li>
-      
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ComingSoon'
+  data(){
+    return {
+      movieList:[],
+      actors:[]
+    }
+  },
+  name: 'ComingSoon',
+  mounted(){
+    //https://m.maoyan.com/ajax/comingList?ci=10&token=&limit=10
+    this.axios.get('/api/comingList?ci=10&token=&limit=10')
+    .then(res => {
+        this.movieList = res.data.coming;
+    })
+  },
 };
 </script>
 
@@ -113,17 +64,22 @@ export default {
       line-height: 24px;
       width: 150px;
       overflow: hidden;
-      white-space: normal;
+      white-space: nowrap;
       text-overflow: ellipsis;
     }
-    p {
+    p{
+      display: block;
       font-size: 13px;
       color: #666;
       line-height: 22px;
-      width: 200px;
+      // width: 200px;
+      max-width: 200px;
       overflow: hidden;
-      white-space: normal;
+      white-space: nowrap;
       text-overflow: ellipsis;
+      span{
+        margin-left: 5px;
+      }
     }
     .grade {
       font-weight: 700;
